@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bora-aeh</title>
+        <link rel="stylesheet" href="style.css">
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    </head>
+
+    <body>
+        <div id="queue-screen">
+            <h1>Fila Virtual</h1>
+            <p>Você já está na fila de espera para: <b>BTS WORLD TOUR 'ARIRANG' IN SÃO PAULO</b></p>
+            <div class="progress-container">
+                <div id="progress-bar"></div>
+            </div>
+            <p id="queue-status">Calculando o tempo de espera...</p>
+        </div>
+
+        <div id="game-screen" class="hidden">
+            <div class="hud">
+                <div>Vidas: 
+                    <span id="lives">
+                        <ion-icon name="heart-outline"></ion-icon>
+                        <ion-icon name="heart-outline"></ion-icon>
+                        <ion-icon name="heart-outline"></ion-icon>
+                    </span>
+                </div>
+                <div id="mission-box">Missão: <span id="mission-text">Aguarde...</span></div>
+                <div>Tempo: <span id="timer">00</span>s</div>
+            </div>
+
+            <div id="map-container"></div>
+
+            <div id="log-container">
+                <h3>Log de Vendas</h3>
+                <ul id="log-list"></ul>
+            </div>
+        </div>
+
+        <script src="js/fila.js"></script>
+    </body>
+</html>
