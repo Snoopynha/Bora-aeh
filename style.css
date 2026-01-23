@@ -6,6 +6,33 @@
     font-family: sans-serif;
 }
 
+.event-info {
+    margin-bottom: 25px;
+}
+
+.event-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.event-location {
+    font-size: 15px;
+    color: #555;
+}
+
+.event-date {
+    font-size: 14px;
+    color: #777;
+}
+
+.event-warning {
+    margin-top: 10px;
+    color: #c0392b;
+    font-weight: bold;
+    font-size: 14px;
+}
+
 .progress-container {
     width: 80%;
     max-width: 500px;
@@ -22,4 +49,15 @@
     height: 100%;
     background: #8e44ad;
     transition: width 0.3s ease;
+}
+
+.queue-info-box {
+    margin: 15px 0;
+    font-size: 14px;
+}
+
+.queue-footer {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #666;
 }

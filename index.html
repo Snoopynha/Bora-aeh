@@ -11,12 +11,33 @@
 
     <body>
         <div id="queue-screen">
-            <h1>Fila Virtual</h1>
-            <p>Você já está na fila de espera para: <b>BTS WORLD TOUR 'ARIRANG' IN SÃO PAULO</b></p>
+            <div class="event-info">
+                <h2 class="event-title">BTS WORLD TOUR 'ARIRANG'</h2>
+                <p class="event-location">São Paulo • Estádio do Morumbi</p>
+                <p class="event-date">28, 30, 31 de outubro de 2026</p>
+            </div>
+
+            <div class="queue-header">
+                <h1>Sala de Espera Virtual</h1>
+                <p class="event-warning">
+                    Este evento está com alta demanda no momento.
+                    Para garantir a estabilidade do sistema, o acesso à compra está sendo realizado por fila.
+                </p>
+            </div>
+
+            <div class="queue-info-box">
+                <p>Seu número: <strong id="queue-token">---</strong></p>
+                <p>Usuários na sua frente: <strong id="users-ahead">---</strong></p>
+            </div>
+
             <div class="progress-container">
                 <div id="progress-bar"></div>
             </div>
-            <p id="queue-status">Calculando o tempo de espera...</p>
+
+            <div class="queue-footer">
+                <p id="queue-status">Conectando ao servidor...</p>
+                <small>Última atualização: <span id="last-update">--:--:--</span></small>
+            </div>
         </div>
 
         <div id="game-screen" class="hidden">
