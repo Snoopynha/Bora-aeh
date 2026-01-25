@@ -7,23 +7,28 @@
 }
 
 .event-info {
-    margin-bottom: 25px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 18px 24px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    text-align: center;
+    margin: 0 auto;
 }
 
 .event-title {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 5px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
 }
 
-.event-location {
-    font-size: 15px;
-    color: #555;
-}
-
+.event-location,
 .event-date {
     font-size: 14px;
-    color: #777;
+    color: #666;
 }
 
 .event-warning {
