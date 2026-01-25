@@ -1,3 +1,5 @@
+import {iniciarSimuladorVendas} from './app.js';
+
 const barraProgresso = document.getElementById('progress-bar');
 const statusTexto = document.getElementById('queue-status');
 const usuariosFrente = document.getElementById('users-ahead');
@@ -44,7 +46,7 @@ function atualizaFila() {
         usuariosFrente.innerText = usuariosAgora.toLocaleString();
         statusTexto.innerText = "Sua posição na fila está sendo atualizada...";
 
-        atualizaTempo()
+        atualizaTempo();
         // Depois deixar mais lento (* 1000 + 500)
         setTimeout(atualizaFila, Math.random() * 500 + 100);
     }
@@ -52,8 +54,10 @@ function atualizaFila() {
 
 function iniciaJogo() {
     telaFila.classList.add('hidden');
-    telaJogo.classList.remove('hidden')
-    console.log("Jogo Iniciado!")
+    telaJogo.classList.remove('hidden');
+    console.log("Jogo Iniciado!");
+
+    iniciarSimuladorVendas();
 }
 
 atualizaFila();
