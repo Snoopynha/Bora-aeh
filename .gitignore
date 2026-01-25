@@ -1,0 +1,23 @@
+# Dependências
+node_modules/
+
+# Build futuro
+dist/
+build/
+
+# Ambiente
+.env
+.env.local
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+npm-debug.log*
+
+trocar-futuro.txt
