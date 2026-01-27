@@ -1,18 +1,14 @@
 import {setoresNivelFacil} from './setores.js';
 
-function atualizarVisualMapa() {
-    for (let id in setoresNivelFacil) {
-        const setorDados = setoresNivelFacil[id];
-        const elementoSvg = document.getElementById(id);
+export function iniciarJogo() {
+    document.getElementById('queue-screen').classList.add('hidden');
+    document.getElementById('game-screen').classList.remove('hidden');
+    console.log("Jogo Iniciado!");
 
-        if (elementoSvg) {
-            elementoSvg.classList.remove('status-disponivel', 'status-esgotando', 'status-esgotado');
-            elementoSvg.classList.add(`status-${setorDados.status}`);
-        }
-    }
+    iniciarSimuladorVendas();
 }
 
-export function iniciarSimuladorVendas() {
+function iniciarSimuladorVendas() {
     console.log("Simulador de vendas iniciado!");
 
     setInterval(() => {
@@ -38,6 +34,19 @@ export function iniciarSimuladorVendas() {
     }, 2500);
 }
 
+// ---FUNÇÕES AUXILIARES---
+function atualizarVisualMapa() {
+    for (let id in setoresNivelFacil) {
+        const setorDados = setoresNivelFacil[id];
+        const elementoSvg = document.getElementById(id);
+
+        if (elementoSvg) {
+            elementoSvg.classList.remove('status-disponivel', 'status-esgotando', 'status-esgotado');
+            elementoSvg.classList.add(`status-${setorDados.status}`);
+        }
+    }
+}
+
 function adicionarLog(mensagem) {
     const logList = document.getElementById('log-list');
     if (logList) {
@@ -45,4 +54,5 @@ function adicionarLog(mensagem) {
         novoItem.innerText = `[${new Date().toLocaleTimeString()}] ${mensagem}`;
         logList.prepend(novoItem);
     }
+    // Depois adicionar uma logica que retire os logs mais antigos
 }
