@@ -173,6 +173,9 @@
 }
 
 #log-list {
-    font-size: 13px;
+    font-size: 15px;
     color: #555;
+    max-height: 100px;
+    overflow-y: auto;
+    padding-right: 5px;
 }

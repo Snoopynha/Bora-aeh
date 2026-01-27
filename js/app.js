@@ -53,6 +53,10 @@ function adicionarLog(mensagem) {
         const novoItem = document.createElement('li');
         novoItem.innerText = `[${new Date().toLocaleTimeString()}] ${mensagem}`;
         logList.prepend(novoItem);
+
+        const maxItens = 10;
+        while (logList.children.length > maxItens) {
+            logList.removeChild(logList.lastChild);
+        }
     }
-    // Depois adicionar uma logica que retire os logs mais antigos
 }
