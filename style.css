@@ -90,6 +90,14 @@
     font-weight: 600;
 }
 
+ion-icon {
+    font-size: 24px;
+    vertical-align: middle;
+}
+
+.heart-full { color: #e74c3c; }
+.heart-empty { color: #bdc3c7; }
+
 .mission {
     padding: 14px 16px;
     border: 1px solid #ddd;

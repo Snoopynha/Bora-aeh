@@ -13,6 +13,7 @@ export function iniciarJogo() {
     document.getElementById('game-screen').classList.remove('hidden');
     console.log("Jogo Iniciado!");
 
+    atualizarInterfaceVidas();
     configurarClique();
     iniciarSimuladorVendas();
     gerarNovaMissao();
@@ -167,4 +168,29 @@ function penalizar(tipo) {
             gerarNovaMissao();
         }
     }
+}
+
+function atualizarInterfaceVidas() {
+    const container = document.getElementById('lives-container');
+    if (!container) return;
+    // Limpa
+    container.innerHTML = '';
+
+    for (let i = 1; i <= 3; i++) {
+        const icon = document.createElement('ion-icon');
+        if (i <= vidas) {
+            icon.setAttribute('name', 'heart');
+            icon.classList.add('heart-full');
+        } else {
+            icon.setAttribute('name', 'heart-outline');
+            icon.classList.add('heart-empty');
+        }
+        container.appendChild(icon);
+    }
+}
+
+function gameOver() {
+    clearInterval(intervaloCronometro);
+    alert(`GAME OVER!\nVocê sobreviveu por ${segundosSobrevividos}s e conseguiu ${ingressosComprados} ingressos.`);
+    location.reload();
 }
