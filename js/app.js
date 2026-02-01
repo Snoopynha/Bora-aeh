@@ -1,11 +1,28 @@
-import {setoresNivelFacil} from './setores.js';
+import {setoresNivelFacil, areasDeBase} from './setores.js';
 
 export function iniciarJogo() {
     document.getElementById('queue-screen').classList.add('hidden');
     document.getElementById('game-screen').classList.remove('hidden');
     console.log("Jogo Iniciado!");
 
+    configurarClique();
     iniciarSimuladorVendas();
+}
+
+function configurarClique() {
+    const estadio = document.getElementById('estadio-um');
+
+    estadio.addEventListener('click', (event) => {
+        const idClicado = event.target.id;
+
+        // Vê se clicou em um setor válido
+        if(setoresNivelFacil[idClicado]) {
+            const setor = setoresNivelFacil[idClicado];
+            processarCliqueSetor(idClicado, setor);
+        } else if (areasDeBase.includes(idClicado)) {
+            adicionarLog("Você não selecionou um setor de assentos");
+        }
+    });
 }
 
 function iniciarSimuladorVendas() {
@@ -58,5 +75,13 @@ function adicionarLog(mensagem) {
         while (logList.children.length > maxItens) {
             logList.removeChild(logList.lastChild);
         }
+    }
+}
+
+function processarCliqueSetor(id, dados) {
+    if (dados.status === "esgotado") {
+        adicionarLog(`Você selecionou: o setor ${dados.nome} ele já está esgotado.`);
+    } else {
+        adicionarLog(`Você selecionou: ${dados.nome} (${dados.status})`);
     }
 }
