@@ -1,5 +1,13 @@
 import {setoresNivelFacil, areasDeBase} from './setores.js';
 
+// ---ESTADOS DO JOGO---
+let missaoAtual = null;
+let vidas = 3;
+let ingressosComprados = 0;
+let segundosSobrevividos = 0;
+let intervaloCronometro = null;
+let tempoRestanteMissao = 15;
+
 export function iniciarJogo() {
     document.getElementById('queue-screen').classList.add('hidden');
     document.getElementById('game-screen').classList.remove('hidden');
@@ -7,20 +15,19 @@ export function iniciarJogo() {
 
     configurarClique();
     iniciarSimuladorVendas();
+    gerarNovaMissao();
 }
 
 function configurarClique() {
-    const estadio = document.getElementById('estadio-um');
-
-    estadio.addEventListener('click', (event) => {
+    document.getElementById('estadio-um').addEventListener('click', (event) => {
         const idClicado = event.target.id;
-
-        // Vê se clicou em um setor válido
-        if(setoresNivelFacil[idClicado]) {
-            const setor = setoresNivelFacil[idClicado];
-            processarCliqueSetor(idClicado, setor);
-        } else if (areasDeBase.includes(idClicado)) {
-            adicionarLog("Você não selecionou um setor de assentos");
+        
+        // Se o id for válido
+        if (setoresNivelFacil[idClicado]) {
+            processarCliqueSetor(idClicado);
+        } else {
+            adicionarLog("Atenção: você não clicou em um setor válido");
+            penalizar('tempo');
         }
     });
 }
@@ -51,6 +58,30 @@ function iniciarSimuladorVendas() {
     }, 2500);
 }
 
+function gerarNovaMissao() {
+    const ids = Object.keys(setoresNivelFacil);
+    const tipos = ["EXAT", "NAO", "PRIORI"];
+
+    const tipoSorteado = tipos[Math.floor(Math.random() * tipos.length)];
+    const setorA = ids[Math.floor(Math.random() * ids.length)];
+    const setorB = ids[Math.floor(Math.random() * ids.length)];
+
+    while (setorB === setorA) { setorB = ids[Math.floor(Math.random() * ids.length)]; }
+    switch (tipoSorteado) {
+        case "EXAT":
+            missaoAtual = { tipo: "EXAT", alvo: setorA, texto: `GARANTA: ${setoresNivelFacil[setorA].nome}` };
+            break;
+        case "NAO":
+            missaoAtual = { tipo: "NAO", proibido: setorA, texto: `COMPRE QUALQUER UM, MENOS: ${setoresNivelFacil[setorA].nome}` };
+            break;
+        case "PRIORI":
+            missaoAtual = { tipo: "PRIORI", planoA: setorA, planoB: setorB, texto: `TENTE ${setoresNivelFacil[setorA].nome}, SE ESGOTAR VÁ DE ${setoresNivelFacil[setorB].nome}` };
+            break;
+    }
+
+    document.getElementById('mission-text').innerText = missaoAtual.texto;
+}
+
 // ---FUNÇÕES AUXILIARES---
 function atualizarVisualMapa() {
     for (let id in setoresNivelFacil) {
@@ -78,10 +109,62 @@ function adicionarLog(mensagem) {
     }
 }
 
-function processarCliqueSetor(id, dados) {
-    if (dados.status === "esgotado") {
-        adicionarLog(`Você selecionou: o setor ${dados.nome} ele já está esgotado.`);
+function processarCliqueSetor(idClicado) {
+    const setor = setoresNivelFacil[idClicado]
+    
+    // Clicou em um setor esgotado perdeu vida
+    if (setor.status === "esgotado") {
+        adicionarLog(`Erro Crítico! ${setor.nome} já está esgotado.`);
+        penalizar('vida');
+        return;
+    }
+
+    // Marca se a pessoa cumpriu ou não
+    let sucesso = false;
+
+    // Validação por tipo de missão
+    if (missaoAtual.tipo === "EXAT") {
+        sucesso = (idClicado === missaoAtual.alvo);
+    } else if (missaoAtual.tipo === "NAO") {
+        sucesso = (idClicado !== missaoAtual.proibido);
+    } else if (missaoAtual.tipo === "PRIORI") {
+        const statusA = setoresNivelFacil[missaoAtual.planoA].status;
+        if (idClicado === missaoAtual.planoA) sucesso = true;
+        else if (idClicado === missaoAtual.planoB && statusA === "esgotado") sucesso = true;
+    }
+
+    if (sucesso) {
+        ingressosComprados++;
+        document.getElementById('score-count').innerText = ingressosComprados;
+        adicionarLog(`Sucesso! +1 ingresso de ${setor.nome}`);
+        gerarNovaMissao();
     } else {
-        adicionarLog(`Você selecionou: ${dados.nome} (${dados.status})`);
+        adicionarLog(`Erro! Setor errado para o objetivo atual!`);
+        penalizar('tempo');
+    }
+}
+
+function penalizar(tipo) {
+    if (tipo === 'tempo') {
+        // Perde 5 segundos do cronômetro da missão atual
+        tempoRestanteMissao -= 5;
+        adicionarLog("Clique errado! -5 segundos");
+        document.getElementById('timer').innerText = tempoRestanteMissao > 0 ? tempoRestanteMissao : 0;
+        
+        // Efeitinho visual de tremor
+        document.getElementById('timer').classList.add('shake');
+        setTimeout(() => document.getElementById('timer').classList.remove('shake'), 500);
+
+    } else if (tipo === 'vida') {
+        vidas--;
+        atualizarInterfaceVidas();
+        adicionarLog("Erro Crítico! Você perdeu uma vida.");
+
+        if (vidas <= 0) {
+            gameOver();
+        } else {
+            // Pula para a próxima para não travar no erro
+            gerarNovaMissao();
+        }
     }
 }
