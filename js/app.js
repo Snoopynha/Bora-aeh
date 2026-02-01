@@ -16,6 +16,7 @@ export function iniciarJogo() {
     atualizarInterfaceVidas();
     configurarClique();
     iniciarSimuladorVendas();
+    iniciarCronometroSessao();
     gerarNovaMissao();
 }
 
@@ -187,6 +188,15 @@ function atualizarInterfaceVidas() {
         }
         container.appendChild(icon);
     }
+}
+
+function iniciarCronometroSessao() {
+    intervaloCronometro = setInterval(() => {
+        segundosSobrevividos++;
+        const min = Math.floor(segundosSobrevividos / 60).toString().padStart(2, '0');
+        const seg = (segundosSobrevividos % 60).toString().padStart(2, '0');
+        document.getElementById('timer').innerText = `${min}:${seg}`;
+    }, 1000);
 }
 
 function gameOver() {
